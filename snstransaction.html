@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【模擬体験】SNS個人間取引リスクシミュレーター</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="simulator-container">
+    <div class="chat-header">
+        <span class="user-name">@絵師イラスト屋 (実績多数・格安)</span>
+        <span class="status-badge">DM</span>
+    </div>
+    
+    <div class="chat-body" id="chatBody">
+        <div class="system-message">取引を開始しました</div>
+        <div class="message received">
+            はじめまして！SNSアイコン作成のご依頼ですね。今ならキャンペーン中で通常5,000円のところ【1,000円】で即日納品できます！
+        </div>
+        <div class="message received">
+            お支払いはギフトコードかPayPayでの【先払い】のみ受け付けております。いかがなさいますか？
+        </div>
+    </div>
+
+    <div class="controls" id="controls">
+        <button class="btn btn-danger" onclick="sendAction('pay')">先払いで1,000円分を支払う</button>
+        <button class="btn btn-safe" onclick="sendAction('escrow')">仲介サイト（エスクロー）経由を頼む</button>
+    </div>
+
+    <div class="warning-box" id="warningBox">
+        <div class="warning-title">⚠️ 被害が発生しました（模擬）</div>
+        <p>お金を送信した直後にアカウントが削除・ブロックされ、連絡が途絶えてしまいました。</p>
+        
+        <h4>【この取引に潜んでいた危険なサイン】</h4>
+        <ul>
+            <li><strong>極端な安さ:</strong> 相場（数千円〜）より大幅に安く設定してターゲットを引き付ける。</li>
+            <li><strong>先払いの強要:</strong> エスクロー（仲介）を使わせず、直接個人へ送金させる。</li>
+            <li><strong>追跡の難しさ:</strong> ギフトコードや個人間送金アプリなど、返金申請が難しい決済を指定。</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function sendAction(type) {
+        const chatBody = document.getElementById('chatBody');
+        const controls = document.getElementById('controls');
+        const warningBox = document.getElementById('warningBox');
+
+        if (type === 'pay') {
+            // 送金アクションのメッセージ追加
+            chatBody.innerHTML += `<div class="message sent">PayPayで1,000円分送金しました！確認してイラストを送ってください。</div>`;
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // 操作ボタンを非表示化
+            controls.style.display = 'none';
+
+            // 1.5秒後にブロック演出と警告表示
+            setTimeout(() => {
+                chatBody.innerHTML += `<div class="system-message alert">相手がアカウントを削除したか、あなたをブロックしました。</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+                warningBox.style.display = 'block';
+            }, 1500);
+
+        } else if (type === 'escrow') {
+            // 仲介提案アクションのメッセージ追加
+            chatBody.innerHTML += `<div class="message sent">安全のため、ココナラやSKIMAなどの仲介サービスを通した取引は可能ですか？</div>`;
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // 1.2秒後に相手の拒否反応を再現
+            setTimeout(() => {
+                chatBody.innerHTML += `<div class="message received">すみません、規約や手数料の関係で直接やり取りしか受けていません。無理なら他の方をあたってください。</div>`;
+                chatBody.innerHTML += `<div class="system-message alert">💡 仲介サービスを拒否するのは詐欺師の典型的な特徴です！</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1200);
+        }
+    }
+</script>
+
+</body>
+</html>
