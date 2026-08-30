@@ -1,0 +1,338 @@
+/* ============================================================
+   サイバー犯罪について — Case File Terminal Theme
+   セキュリティ・インシデントレポートをモチーフにしたデザイン
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #090c12;
+  --panel: #10141d;
+  --panel-alt: #141a26;
+  --line: #232c3d;
+  --text: #e7ebf3;
+  --muted: #8792a8;
+  --accent-red: #ff4d5e;
+  --accent-cyan: #35e6ff;
+  --accent-amber: #ffb020;
+
+  --mono: 'JetBrains Mono', 'Consolas', monospace;
+  --sans: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+/* Faint scanline texture across the whole page */
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ------------------------------------------------------------
+   Opening screen — boot sequence
+   ------------------------------------------------------------ */
+#opening-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#opening-screen.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.opening-content {
+  position: relative;
+  text-align: center;
+  padding: 2rem 3rem;
+}
+
+.opening-content::before {
+  content: "INITIALIZING SECURITY BRIEFING ...";
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+#opening-screen h1 {
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
+  letter-spacing: 0.04em;
+  color: var(--text);
+  position: relative;
+  text-shadow:
+    2px 0 var(--accent-red),
+    -2px 0 var(--accent-cyan);
+  animation: glitch 3.4s infinite steps(1);
+}
+
+#opening-screen h1::after {
+  content: "_";
+  color: var(--accent-cyan);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes glitch {
+  0%, 92%, 100% { text-shadow: 2px 0 var(--accent-red), -2px 0 var(--accent-cyan); transform: translate(0, 0); }
+  93% { text-shadow: -3px 0 var(--accent-red), 3px 0 var(--accent-cyan); transform: translate(-1px, 1px); }
+  94% { text-shadow: 3px 0 var(--accent-red), -3px 0 var(--accent-cyan); transform: translate(1px, -1px); }
+  95% { text-shadow: 2px 0 var(--accent-red), -2px 0 var(--accent-cyan); transform: translate(0, 0); }
+}
+
+/* ------------------------------------------------------------
+   Main — case file body
+   ------------------------------------------------------------ */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 6rem;
+  counter-reset: casefile;
+}
+
+main h2 {
+  counter-increment: casefile;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  margin: 3.2rem 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+main h2::before {
+  content: "CASE_0" counter(casefile) " >";
+  color: var(--accent-cyan);
+  font-size: 0.8rem;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+main h2:first-of-type {
+  margin-top: 0;
+}
+
+/* Alternate the alert color accenting each entry's left rule */
+main p {
+  position: relative;
+  background: var(--panel);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 0 6px 6px 0;
+  padding: 1.1rem 1.4rem 1.1rem 1.6rem;
+  margin: 0 0 0.4rem;
+  line-height: 2;
+  font-size: 0.95rem;
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+main h2:nth-of-type(3n+2) + p { border-left-color: var(--accent-cyan); }
+main h2:nth-of-type(3n) + p    { border-left-color: var(--accent-amber); }
+
+main p:hover {
+  background: var(--panel-alt);
+  transform: translateX(2px);
+}
+
+main p br {
+  content: "";
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ------------------------------------------------------------
+   Back-home button
+   ------------------------------------------------------------ */
+.back-home {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  text-align: center;
+}
+
+.back-home a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  padding: 1rem 2.4rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    conic-gradient(from var(--angle, 0deg), var(--accent-cyan), var(--accent-red), var(--accent-amber), var(--accent-cyan)) border-box;
+  border: 2px solid transparent;
+  overflow: hidden;
+  isolation: isolate;
+  animation: spin-border 3.5s linear infinite, pulse-glow 2s ease-in-out infinite;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes spin-border {
+  to { --angle: 360deg; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(53, 230, 255, 0.35), 0 0 26px rgba(255, 77, 94, 0.18); }
+  50%      { box-shadow: 0 0 20px rgba(53, 230, 255, 0.6), 0 0 46px rgba(255, 77, 94, 0.35); }
+}
+
+.back-home a::before {
+  content: "←";
+  font-size: 1rem;
+  transition: transform 0.25s ease;
+}
+
+/* Shimmer sweep across the label */
+.back-home a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 80%
+  );
+  background-size: 250% 100%;
+  animation: shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.back-home a:hover,
+.back-home a:focus-visible {
+  color: var(--bg);
+  background:
+    linear-gradient(var(--accent-cyan), var(--accent-cyan)) padding-box,
+    conic-gradient(from var(--angle, 0deg), var(--accent-cyan), var(--accent-red), var(--accent-amber), var(--accent-cyan)) border-box;
+  transform: scale(1.06);
+}
+
+.back-home a:hover::before {
+  transform: translateX(-4px);
+}
+
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--line);
+  padding: 1.4rem 1.5rem;
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 560px) {
+  main {
+    padding: 3.5rem 1rem 4rem;
+  }
+  main h2 {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  main p {
+    font-size: 0.9rem;
+    padding: 1rem 1.1rem 1rem 1.3rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  #opening-screen h1,
+  #opening-screen h1::after {
+    animation: none;
+  }
+  main p {
+    transition: none;
+  }
+  .back-home a,
+  .back-home a::after {
+    animation: none;
+  }
+}
