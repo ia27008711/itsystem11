@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ネットワークの危険性を知ろう！｜11班</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+</head>
+<body>
+    
+    <div class="content-wrapper">
+        <header>
+            <div class="logo">Cyber Guard</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#">ホーム</a></li>
+                    <li><a href="#">危険性を知ろう</a></li>
+                    <li><a href="#">対策</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <h1>ネットワークの危険性を知ろう！</h1>
+        <h2>なぜ危険性を知る必要があるのか？</h2>
+        <h3>今ではネットワークは便利で手放せないものとなりました。<br>
+           しかし、中には命を脅かす<span style="color:red;text-decoration: underline;">脅威</span>のあるものもあります<br>
+           そこでこのサイトで危険性を知ってもらおうと考えこのサイトを作成しました。</h3>
+
+        <div class="section-title-area">
+            <p class="en-title">CHOOSE A TOPIC</p>
+            <h4 class="ja-title">私たちが直面している6つのネットワークの危険性</h4>
+        </div>
+
+        <hr class="gradation-line" id="bg-trigger">
+
+        <div class="scroll-down">
+            <span>SCROLL</span>
+            <div class="arrow"></div>
+        </div>
+        
+        <ul class="link-list fade-in">
+            <li>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/onlinemeet.png" alt="ネットの人とオフラインで会う危険性">
+                    <span>ネットの人とオフラインで会う危険性について</span>
+                </a>
+            </li>
+            <li>
+                <a href="mail.html" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/malwarePC.png" alt="マルウェアに感染したときの疑似体験">
+                    <span>マルウェアに感染した時の疑似体験</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://amazon.co.jp" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/transaction.png" alt="オンライン上での電子取引について">
+                    <span>オンライン上での電子取引について</span>
+                </a>
+            </li>  
+        </ul>
+        
+        <ul class="link-list fade-in">
+            <li>
+                <a href="enjyou.html" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/backlash.png" alt="SNSでの炎上について">
+                    <span>SNSでの炎上について</span>
+                </a>
+            </li>
+            <li>
+                <a href="yamibaito.html" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/ijime.png" alt="ネット上でのいじめについて">
+                    <span>闇バイトについて</span>
+                </a>
+            </li>
+            <li>
+                <a href="fakenews.html" target="_blank" rel="noopener noreferrer">
+                    <img src="./image/fakenews.png" alt="フェイクニュースについて">
+                    <span>フェイクニュースについて</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="gradation-line" id="bg-trigger-2">
+
+        <h3 class="link-list fade-in_text">
+            これらは総じて<span style="color: red;">サイバー犯罪</span>と呼ばれているものになります
+        </h3>
+
+        <div style="height: 200px;"></div>
+        <h1><a href="Cyber.html">ここより具体的な事例</a></h1>
+        
+        <footer>
+            <p style="text-align: center;">&copy; 2026 11班</p>
+        </footer>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const fadeElements = document.querySelectorAll('.fade-in, .fade-in_text');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        fadeElements.forEach(el => observer.observe(el));
+
+        const bgTrigger1 = document.getElementById('bg-trigger');
+        const bgTrigger2 = document.getElementById('bg-trigger-2');
+        
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.id;
+                const isPastTrigger = !entry.isIntersecting && entry.boundingClientRect.top < entry.rootBounds.top;
+
+                if (id === 'bg-trigger') {
+                    if (isPastTrigger) {
+                        document.body.classList.add('bg-changed');
+                    } else {
+                        document.body.classList.remove('bg-changed');
+                    }
+                } 
+                else if (id === 'bg-trigger-2') {
+                    if (isPastTrigger) {
+                        document.body.classList.add('bg-changed-2');
+                    } else {
+                        document.body.classList.remove('bg-changed-2');
+                    }
+                }
+            });
+        }, {
+            rootMargin: "-50% 0px 0px 0px"
+        });
+
+        if (bgTrigger1) bgObserver.observe(bgTrigger1);
+        if (bgTrigger2) bgObserver.observe(bgTrigger2);
+    </script>
+</body>
+</html>
